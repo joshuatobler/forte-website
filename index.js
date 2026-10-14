@@ -3,6 +3,9 @@ const formModal = document.querySelector(".form-modal");
 const formTitle = document.querySelector(".form__title");
 const formContainer = document.querySelector(".form__container");
 const closeFormButton = document.querySelector(".form-modal__close");
+const wipModal = document.querySelector(".wip-modal");
+const wipCloseButton = document.querySelector(".wip-modal__close");
+const wipConfirmButton = document.querySelector(".wip-modal__button");
 
 const forms = {
   jot: {
@@ -56,5 +59,25 @@ formModal.addEventListener("click", (event) => {
   if (event.target === formModal) {
     formModal.close();
     formContainer.replaceChildren();
+  }
+});
+
+document.querySelectorAll("[data-wip]").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    wipModal.showModal();
+  });
+});
+
+function closeWipModal() {
+  wipModal.close();
+}
+
+wipCloseButton.addEventListener("click", closeWipModal);
+wipConfirmButton.addEventListener("click", closeWipModal);
+
+wipModal.addEventListener("click", (event) => {
+  if (event.target === wipModal) {
+    closeWipModal();
   }
 });
