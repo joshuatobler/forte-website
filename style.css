@@ -62,7 +62,6 @@ section {
 }
 
 .section__title {
-  margin: 0;
   font-size: clamp(2rem, 4vw, 3.5rem);
   color: var(--charcoal);
   text-transform: uppercase;
@@ -132,7 +131,13 @@ section {
 
 /* NAVBAR */
 
-nav {
+.navbar {
+  position: fixed;
+  background-color: var(--linen);
+  z-index: 10;
+  top: 0;
+  right: 0;
+  left: 0;
   height: 80px;
   display: flex;
 }
@@ -161,11 +166,17 @@ nav {
   margin-left: 16px;
   text-decoration: none;
   font-size: 14px;
+  font-family: inherit;
   color: var(--charcoal);
   font-weight: 500;
   padding: 8px;
   text-shadow: 0 0 0 transparent;
   transition: text-shadow 300ms ease;
+}
+
+button.nav__link {
+  background: transparent;
+  border: 0;
 }
 
 .nav__link--list {
@@ -184,6 +195,11 @@ nav {
   transition:
     transform 220ms ease-out,
     background-color 180ms ease;
+}
+
+button.nav__link--primary {
+  background-color: var(--lightgoldenhour);
+  border: 1px solid var(--charcoal);
 }
 
 .nav__link:not(.nav__link--primary):hover,
@@ -234,6 +250,7 @@ nav {
 /* LANDING */
 
 #landing {
+  padding-top: 80px;
   position: relative;
   z-index: 2;
   background-color: transparent;
@@ -372,7 +389,6 @@ nav {
 .about-card__face {
   position: absolute;
   inset: 0;
-  box-sizing: border-box;
   overflow: hidden;
   padding: var(--card-padding);
   border: 1px solid #333333;
@@ -381,11 +397,24 @@ nav {
   -webkit-backface-visibility: hidden;
 }
 
-.about-card__face--front {
-  display: block;
+.about-card__face--front,
+.about-card__face--back {
   color: var(--charcoal);
   background-color: var(--clementine);
   text-align: left;
+}
+
+.about-card__face--front {
+  display: block;
+}
+
+.about-card__face--back {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0.75rem;
+  transform: rotateY(180deg);
 }
 
 .about-card__intro {
@@ -393,7 +422,6 @@ nav {
   top: calc(var(--card-padding) + 1rem);
   right: calc(var(--card-padding) + 1rem);
   width: 10.5rem;
-  margin: 0;
   color: var(--charcoal);
   font-size: 1rem;
   font-weight: 700;
@@ -405,7 +433,6 @@ nav {
   bottom: var(--card-padding);
   left: var(--card-padding);
   display: block;
-  margin: 0;
   color: var(--goldenhour);
   font-size: 5.25rem; /* clamp(3rem, 7vw, 5.25rem) */
   font-style: italic;
@@ -423,7 +450,6 @@ nav {
   flex-direction: column;
   align-items: center;
   gap: 0.65rem;
-  margin: 0;
   color: var(--charcoal);
   font-size: 1rem;
   font-weight: 700;
@@ -465,22 +491,9 @@ nav {
   box-shadow: 0 0 0 3px var(--linen);
 }
 
-.about-card__face--back {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 0.75rem;
-  color: var(--charcoal);
-  background-color: var(--clementine);
-  text-align: left;
-  transform: rotateY(180deg);
-}
-
 .about-card__back-title {
   display: block;
   max-width: 22rem;
-  margin: 0;
   color: var(--linen);
   font-size: 1.6rem;
   font-weight: 800;
@@ -490,7 +503,6 @@ nav {
 .about-card__copy {
   display: block;
   max-width: none;
-  margin: 0;
   color: var(--charcoal);
   font-size: clamp(0.9rem, 2vw, 1.05rem);
   font-weight: 700;
@@ -601,7 +613,7 @@ nav {
 }
 
 .contact__card h3 {
-  margin: 0 0 1rem;
+  margin-bottom: 1rem;
   font-size: 1.125rem;
   line-height: 1.2;
   text-transform: uppercase;
@@ -786,6 +798,112 @@ footer a:focus-visible {
   height: auto;
 }
 
+/* MODALS */
+
+.modal {
+  width: min(100% - 2rem, 42rem);
+  max-height: min(90vh, 48rem);
+  margin: auto;
+  padding: 0;
+  color: var(--charcoal);
+  background: transparent;
+  border: 0;
+}
+
+.modal::backdrop {
+  background-color: rgb(51 51 51 / 70%);
+  backdrop-filter: blur(0.2rem);
+}
+
+.modal__card {
+  position: relative;
+  max-height: min(90vh, 48rem);
+  overflow-y: auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  background-color: var(--linen);
+  border: 1px solid var(--charcoal);
+  border-radius: 1.25rem;
+  box-shadow: 0 1rem 3rem rgb(51 51 51 / 30%);
+  scrollbar-width: thin;
+  scrollbar-color: var(--charcoal) transparent;
+}
+
+.modal__card::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.modal__card::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal__card::-webkit-scrollbar-thumb {
+  background-color: var(--charcoal);
+  border: 0.125rem solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+}
+
+.modal__card::-webkit-scrollbar-thumb:hover {
+  background-color: var(--clementine);
+}
+
+.modal__title {
+  max-width: calc(100% - 3rem);
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.modal__close {
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  margin-left: auto;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  place-items: center;
+  color: var(--charcoal);
+  font-size: 2rem;
+  line-height: 1;
+  background-color: var(--lightgoldenhour);
+  border: 1px solid var(--charcoal);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 300ms ease, transform 300ms ease;
+}
+
+.modal__close:hover,
+.modal__close:focus-visible {
+  background-color: var(--goldenhour);
+  transform: scale(1.07);
+}
+
+.modal__close:focus-visible {
+  outline: 3px solid var(--charcoal);
+  outline-offset: 3px;
+}
+
+/* FORM MODAL */
+
+.form__container {
+  min-height: 8rem;
+}
+
+/* WORK IN PROGRESS MODAL */
+
+.wip-modal__message {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.wip-modal__button {
+  display: block;
+  margin-inline: auto;
+}
+
 
 
 /* MEDIA QUERIES */
@@ -934,6 +1052,15 @@ footer a:focus-visible {
 
   .capability:hover,
   .capability:active {
+    transform: none;
+  }
+
+  .modal__close {
+    transition: background-color 300ms ease;
+  }
+
+  .modal__close:hover,
+  .modal__close:focus-visible {
     transform: none;
   }
 }
